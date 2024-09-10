@@ -2,7 +2,7 @@ from typing import Union, Type, List, Tuple
 
 import torch
 from dynamic_network_architectures.building_blocks.helper import convert_conv_op_to_dim
-from dynamic_network_architectures.building_blocks.plain_conv_encoder_MBTFE_EAB_DC import PlainConvEncoder
+from dynamic_network_architectures.building_blocks.plain_conv_encoder import PlainConvEncoder
 from dynamic_network_architectures.building_blocks.residual import BasicBlockD, BottleneckD
 from dynamic_network_architectures.building_blocks.residual_encoders import ResidualEncoder
 from dynamic_network_architectures.building_blocks.unet_decoder import UNetDecoder

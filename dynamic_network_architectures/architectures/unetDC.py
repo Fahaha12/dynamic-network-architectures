@@ -2,7 +2,7 @@ from typing import Union, Type, List, Tuple
 
 import torch
 from dynamic_network_architectures.building_blocks.helper import convert_conv_op_to_dim
-from dynamic_network_architectures.building_blocks.plain_conv_encoder_MBTFE_EAB import PlainConvEncoder
+from dynamic_network_architectures.building_blocks.plain_conv_encoder_MBTFE_EAB_DC import PlainConvEncoder
 from dynamic_network_architectures.building_blocks.residual import BasicBlockD, BottleneckD
 from dynamic_network_architectures.building_blocks.residual_encoders import ResidualEncoder
 from dynamic_network_architectures.building_blocks.unet_decoder import UNetDecoder
@@ -33,7 +33,9 @@ class PlainConvUNet(nn.Module):
                  nonlin: Union[None, Type[torch.nn.Module]] = None,
                  nonlin_kwargs: dict = None,
                  deep_supervision: bool = False,
-                 nonlin_first: bool = False
+                 nonlin_first: bool = False,
+				 pool: str = 'conv',  # ���� pool ����
+                 g: int = 8  # ���� g ����
                  ):
         """
         nonlin_first: if True you get conv -> nonlin -> norm. Else it's conv -> norm -> nonlin
@@ -53,7 +55,7 @@ class PlainConvUNet(nn.Module):
         self.encoder = PlainConvEncoder(input_channels, n_stages, features_per_stage, conv_op, kernel_sizes, strides,
                                         n_conv_per_stage, conv_bias, norm_op, norm_op_kwargs, dropout_op,
                                         dropout_op_kwargs, nonlin, nonlin_kwargs, return_skips=True,
-                                        nonlin_first=nonlin_first)
+                                        pool=pool, g=g)
         self.decoder = UNetDecoder(self.encoder, num_classes, n_conv_per_stage_decoder, deep_supervision,
                                    nonlin_first=nonlin_first)
 
